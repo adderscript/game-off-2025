@@ -4,16 +4,30 @@ import { pointInCircle } from '../utils/collision';
 
 export function createEnemy(pos: Vec2): GameObj {
     const enemy = k.add([
+        "enemy",
         k.rect(16.0, 16.0),
         k.color("#ff0000"),
         k.pos(pos),
         k.anchor("bot"),
         k.area(),
         k.body({ drag: 12.5 }),
+        k.health(3.0),
 
         {
             speed: 500.0,
-            detectionRadius: 75.0,
+
+            detectionRadius: 100.0,
+            damage: 1.0,
+            knockbackForce: 750.0,
+            
+            takeDamage(damage: number, knockbackForce: number, damagerPosition: Vec2) {
+                enemy.hurt(damage);
+
+                // apply knockback
+                const dir = enemy.pos.sub(damagerPosition).unit();
+                enemy.applyImpulse(dir.scale(knockbackForce));
+                k.shake(2.0);
+            },
         },
     ]);
 
@@ -33,6 +47,13 @@ export function createEnemy(pos: Vec2): GameObj {
             const dir = tower.pos.sub(enemy.pos).unit();
             enemy.addForce(dir.scale(enemy.speed));
         }
+
+        // handle y-sort
+        player.z = player.pos.y;
+    });
+
+    enemy.onCollide("player", (other: GameObj) => {
+        other.takeDamage(enemy.damage, enemy.knockbackForce, enemy.pos);
     });
 
     return enemy;

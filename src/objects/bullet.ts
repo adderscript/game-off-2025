@@ -12,7 +12,18 @@ export default function createBullet(position: Vec2, angle: number): GameObj {
         k.area(),
         k.body(),
         k.offscreen({ destroy: true }),
+
+        {
+            damage: 1.0,
+            knockbackForce: 500.0,
+        },
     ]);
+
+    bullet.onCollide("enemy", (other: GameObj) => {
+        const player = k.get("player")[0];
+        other.takeDamage(bullet.damage, bullet.knockbackForce, player.pos);
+        bullet.destroy();
+    });
 
     return bullet;
 }
