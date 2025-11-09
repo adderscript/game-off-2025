@@ -14,10 +14,5 @@ export default function createBullet(position: Vec2, angle: number): GameObj {
         k.offscreen({ destroy: true }),
     ]);
 
-    bullet.onUpdate(() => {
-        bullet.scale.x += 0.05;
-        bullet.scale.y += 0.05;
-    });
-
     return bullet;
 }

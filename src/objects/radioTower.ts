@@ -3,6 +3,7 @@ import k from '../gameCtx';
 
 export function createRadioTower(): GameObj {
     const radioTower = k.add([
+        "radioTower",
         k.sprite("radiotower"),
         k.pos(k.center()),
         k.z(0.0),
