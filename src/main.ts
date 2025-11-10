@@ -8,4 +8,3 @@ k.loadSprite("radiotower", "sprites/radiotower.png");
 
 createGameScene();
 k.go("game");
-

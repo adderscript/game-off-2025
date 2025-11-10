@@ -55,6 +55,7 @@ export function createGun(): GameObj {
 
         // play shoot animation
         gun.play("shoot", { loop: false, });
+        k.shake(1.0);
     });
 
     return gun;

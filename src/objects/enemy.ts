@@ -26,7 +26,6 @@ export function createEnemy(pos: Vec2): GameObj {
                 // apply knockback
                 const dir = enemy.pos.sub(damagerPosition).unit();
                 enemy.applyImpulse(dir.scale(knockbackForce));
-                k.shake(2.0);
             },
         },
     ]);
@@ -55,6 +54,12 @@ export function createEnemy(pos: Vec2): GameObj {
     enemy.onCollide("player", (other: GameObj) => {
         other.takeDamage(enemy.damage, enemy.knockbackForce, enemy.pos);
     });
+
+    enemy.on("death", () => {
+        enemy.destroy();
+    });
+
+    enemy
 
     return enemy;
 }
